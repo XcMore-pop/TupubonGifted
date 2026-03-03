@@ -3,35 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin Panel</title>
+<style>
+body{
+  font-family: Arial;
+  background:#0f2027;
+  color:white;
+  text-align:center;
+  padding:40px;
+}
+button{
+  padding:10px 20px;
+  margin:10px;
+  cursor:pointer;
+}
+input{
+  padding:8px;
+  margin:5px;
+}
+.card{
+  background:#1c2e3a;
+  padding:20px;
+  margin-top:20px;
+  border-radius:10px;
+}
+</style>
 </head>
 <body>
 
 <h2>Admin Dashboard</h2>
 <p id="user"></p>
+<button onclick="logout()">Logout</button>
+
 <div id="content" style="display:none;">
-  <h3>ยินดีต้อนรับแอดมิน</h3>
-  <p>คุณสามารถจัดการข้อมูลได้</p>
+
+<div class="card">
+  <h3>เพิ่มผลงาน</h3>
+  <input type="text" id="name" placeholder="ชื่อนักเรียน"><br>
+  <input type="text" id="title" placeholder="ชื่อผลงาน"><br>
+  <button onclick="addWork()">เพิ่ม</button>
+</div>
+
+<div class="card">
+  <h3>สถานะรับสมัคร</h3>
+  <button onclick="setApply('open')">เปิดรับสมัคร</button>
+  <button onclick="setApply('closed')">ปิดรับสมัคร</button>
+</div>
+
 </div>
 
 <script>
-const API_URL = "ใส่URLAppsScript";
+const API_URL = "https://script.google.com/macros/s/AKfycbweFD0flTiK6cWKJvhir-AeDFdTiQBfN1pQEK5OyvNnC4PkaQZRyz1X8qqYHgFzYwG9/exec";
 
 fetch(API_URL + "?action=getUser")
 .then(res=>res.json())
 .then(data=>{
   if(!data.email){
-    alert("กรุณา Login Google ก่อน");
+    alert("กรุณา Login Google");
     return;
   }
 
   if(data.isAdmin){
-    document.getElementById("user").innerText = "Logged in: " + data.email;
+    document.getElementById("user").innerText =
+      "Logged in: " + data.email;
     document.getElementById("content").style.display = "block";
   }else{
-    alert("คุณไม่มีสิทธิ์เข้าหน้านี้");
-    window.location.href = "index.html";
+    alert("คุณไม่มีสิทธิ์");
+    window.location.href="index.html";
   }
 });
+
+function addWork(){
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"addWork",
+      name:document.getElementById("name").value,
+      title:document.getElementById("title").value,
+      image:""
+    })
+  })
+  .then(res=>res.text())
+  .then(msg=>{
+    if(msg=="success"){
+      alert("เพิ่มสำเร็จ");
+    }else{
+      alert("ไม่มีสิทธิ์");
+    }
+  });
+}
+
+function setApply(status){
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"toggleApply",
+      status:status
+    })
+  })
+  .then(res=>res.text())
+  .then(msg=>alert(msg));
+}
+
+function logout(){
+  localStorage.clear();
+  window.location.href="https://accounts.google.com/Logout";
+}
 </script>
 
 </body>
