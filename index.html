@@ -3,22 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Gifted Program</title>
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<section class="hero">
-  <div>
-    <h1>Gifted Classroom</h1>
-    <p>Empowering Future Innovators</p>
-  </div>
-</section>
+<h1>Gifted Classroom</h1>
 
-<section id="works" style="padding:50px;">
-  <h2>ผลงานนักเรียน</h2>
-  <div id="portfolio"></div>
-</section>
+<div id="works"></div>
 
-<script src="script.js"></script>
+<script>
+const API_URL = "ใส่URLตรงนี้";
+
+fetch(API_URL + "?action=getWorks")
+.then(res=>res.json())
+.then(data=>{
+  let div = document.getElementById("works");
+  data.forEach(row=>{
+    div.innerHTML += `
+      <div>
+        <h3>${row[1]}</h3>
+        <p>${row[2]}</p>
+      </div>
+    `;
+  });
+});
+</script>
+
 </body>
 </html>
