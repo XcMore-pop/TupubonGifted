@@ -2,31 +2,36 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="style.css">
+<title>Admin Panel</title>
 </head>
 <body>
 
-<h2>Admin Panel</h2>
-
-<input type="text" id="name" placeholder="ชื่อนักเรียน">
-<input type="text" id="title" placeholder="ผลงาน">
-<button onclick="addData()">เพิ่มข้อมูล</button>
+<h2>Admin Dashboard</h2>
+<p id="user"></p>
+<div id="content" style="display:none;">
+  <h3>ยินดีต้อนรับแอดมิน</h3>
+  <p>คุณสามารถจัดการข้อมูลได้</p>
+</div>
 
 <script>
 const API_URL = "ใส่URLAppsScript";
 
-function addData(){
-  fetch(API_URL,{
-    method:"POST",
-    body:JSON.stringify({
-      id: Date.now(),
-      name: document.getElementById("name").value,
-      title: document.getElementById("title").value
-    })
-  })
-  .then(res=>res.text())
-  .then(msg=>alert(msg));
-}
+fetch(API_URL + "?action=getUser")
+.then(res=>res.json())
+.then(data=>{
+  if(!data.email){
+    alert("กรุณา Login Google ก่อน");
+    return;
+  }
+
+  if(data.isAdmin){
+    document.getElementById("user").innerText = "Logged in: " + data.email;
+    document.getElementById("content").style.display = "block";
+  }else{
+    alert("คุณไม่มีสิทธิ์เข้าหน้านี้");
+    window.location.href = "index.html";
+  }
+});
 </script>
 
 </body>
