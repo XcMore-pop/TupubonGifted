@@ -1,34 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Upload</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Work</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
 body{
-  font-family:Arial;
-  background:#111;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ff9ad5,#a18cd1,#fbc2eb);
+  background-size: 300% 300%;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.glass{
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  padding:40px;
+  border-radius:20px;
+  width:350px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+h2{
+  margin-bottom:20px;
   color:white;
-  padding:30px;
 }
-.card{
-  background:#1e1e1e;
-  padding:20px;
+
+input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:none;
   border-radius:10px;
+  outline:none;
 }
+
 button{
-  padding:10px 20px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:white;
+  color:#a18cd1;
+  font-weight:600;
   cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+  background:#f8f8f8;
+}
+
+#status{
+  margin-top:15px;
+  color:white;
+  font-weight:600;
 }
 </style>
 </head>
+
 <body>
 
-<div class="card">
-  <h2>อัปโหลดผลงาน</h2>
+<div class="glass">
+  <h2>📂 Upload Your Work</h2>
 
-  <input type="text" id="name" placeholder="ชื่อผู้ส่ง"><br><br>
-  <input type="file" id="file"><br><br>
-  <button onclick="upload()">อัปโหลด</button>
+  <input type="text" id="name" placeholder="ชื่อผู้ส่ง">
+  <input type="file" id="file" accept="image/*">
+
+  <button onclick="upload()">Upload</button>
 
   <p id="status"></p>
 </div>
@@ -40,6 +107,13 @@ const API_URL = "https://script.google.com/macros/s/AKfycbweFD0flTiK6cWKJvhir-Ae
 function upload(){
   const file = document.getElementById("file").files[0];
   const name = document.getElementById("name").value;
+
+  if(!file || !name){
+    document.getElementById("status").innerText="กรอกข้อมูลให้ครบก่อน";
+    return;
+  }
+
+  document.getElementById("status").innerText="กำลังอัปโหลด...";
 
   const reader = new FileReader();
   reader.onload = function(){
@@ -59,7 +133,10 @@ function upload(){
     })
     .then(res=>res.json())
     .then(data=>{
-      document.getElementById("status").innerText="อัปโหลดสำเร็จ";
+      document.getElementById("status").innerText="อัปโหลดสำเร็จ ✨";
+    })
+    .catch(()=>{
+      document.getElementById("status").innerText="เกิดข้อผิดพลาด";
     });
 
   };
