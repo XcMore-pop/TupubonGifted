@@ -1,31 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Gifted Program</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Work System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ff9ad5,#a18cd1,#89f7fe,#66a6ff);
+  background-size:400% 400%;
+  animation:bgMove 12s ease infinite;
+  overflow:hidden;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.glass{
+  backdrop-filter: blur(25px);
+  background: rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  padding:50px;
+  border-radius:25px;
+  width:400px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,0.2);
+  animation:fadeUp 1.2s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(40px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+  font-weight:800;
+  color:white;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+
+p{
+  color:white;
+  opacity:0.9;
+  margin-bottom:30px;
+}
+
+.btn{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:none;
+  border-radius:12px;
+  background:white;
+  color:#a18cd1;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  background:#f1f1f1;
+}
+
+.footer{
+  position:absolute;
+  bottom:20px;
+  color:white;
+  opacity:0.8;
+  font-size:14px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Gifted Classroom</h1>
+<div class="glass">
+  <h1>✨ Student Work</h1>
+  <p>ระบบอัปโหลดและจัดการผลงานนักเรียน</p>
 
-<div id="works"></div>
+  <button class="btn" onclick="goUpload()">📂 อัปโหลดผลงาน</button>
+  <button class="btn" onclick="goDashboard()">📊 Dashboard</button>
+</div>
+
+<div class="footer">
+  © 2026 Student Project System
+</div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbweFD0flTiK6cWKJvhir-AeDFdTiQBfN1pQEK5OyvNnC4PkaQZRyz1X8qqYHgFzYwG9/exec";
+function goUpload(){
+  window.location.href="upload.html";
+}
 
-fetch(API_URL + "?action=getWorks")
-.then(res=>res.json())
-.then(data=>{
-  let div = document.getElementById("works");
-  data.forEach(row=>{
-    div.innerHTML += `
-      <div>
-        <h3>${row[1]}</h3>
-        <p>${row[2]}</p>
-      </div>
-    `;
-  });
-});
+function goDashboard(){
+  window.location.href="admin.html";
+}
 </script>
 
 </body>
