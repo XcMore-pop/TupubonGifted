@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Upload</title>
+<style>
+body{
+  font-family:Arial;
+  background:#111;
+  color:white;
+  padding:30px;
+}
+.card{
+  background:#1e1e1e;
+  padding:20px;
+  border-radius:10px;
+}
+button{
+  padding:10px 20px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>อัปโหลดผลงาน</h2>
+
+  <input type="text" id="name" placeholder="ชื่อผู้ส่ง"><br><br>
+  <input type="file" id="file"><br><br>
+  <button onclick="upload()">อัปโหลด</button>
+
+  <p id="status"></p>
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbweFD0flTiK6cWKJvhir-AeDFdTiQBfN1pQEK5OyvNnC4PkaQZRyz1X8qqYHgFzYwG9/exec";
+
+function upload(){
+  const file = document.getElementById("file").files[0];
+  const name = document.getElementById("name").value;
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    const base64 = reader.result.split(",")[1];
+
+    fetch(API_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        name: name,
+        file: base64,
+        fileName: file.name,
+        mimeType: file.type
+      })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      document.getElementById("status").innerText="อัปโหลดสำเร็จ";
+    });
+
+  };
+
+  reader.readAsDataURL(file);
+}
+
+</script>
+
+</body>
+</html>
