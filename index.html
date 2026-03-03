@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Work System</title>
+<title>Gifted Classroom Program</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
@@ -20,9 +20,9 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background: linear-gradient(135deg,#ff9ad5,#a18cd1,#89f7fe,#66a6ff);
-  background-size:400% 400%;
-  animation:bgMove 12s ease infinite;
+  background: linear-gradient(135deg,#1e3c72,#2a5298,#6dd5fa);
+  background-size:300% 300%;
+  animation:bgMove 10s ease infinite;
   overflow:hidden;
 }
 
@@ -33,15 +33,15 @@ body{
 }
 
 .glass{
-  backdrop-filter: blur(25px);
-  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.12);
   border:1px solid rgba(255,255,255,0.25);
   padding:50px;
   border-radius:25px;
-  width:400px;
+  width:450px;
   text-align:center;
-  box-shadow:0 30px 60px rgba(0,0,0,0.2);
-  animation:fadeUp 1.2s ease;
+  box-shadow:0 25px 60px rgba(0,0,0,0.3);
+  animation:fadeUp 1s ease;
 }
 
 @keyframes fadeUp{
@@ -52,25 +52,26 @@ body{
 h1{
   font-weight:800;
   color:white;
+  font-size:28px;
   margin-bottom:10px;
-  letter-spacing:1px;
 }
 
-p{
+h2{
+  font-weight:400;
   color:white;
+  margin-bottom:25px;
   opacity:0.9;
-  margin-bottom:30px;
 }
 
 .btn{
   display:block;
   width:100%;
-  padding:12px;
-  margin:10px 0;
+  padding:14px;
+  margin:12px 0;
   border:none;
   border-radius:12px;
   background:white;
-  color:#a18cd1;
+  color:#2a5298;
   font-weight:600;
   cursor:pointer;
   transition:0.3s;
@@ -79,6 +80,16 @@ p{
 .btn:hover{
   transform:scale(1.05);
   background:#f1f1f1;
+}
+
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.2);
+  padding:6px 15px;
+  border-radius:50px;
+  color:white;
+  font-size:14px;
+  margin-bottom:15px;
 }
 
 .footer{
@@ -94,15 +105,17 @@ p{
 <body>
 
 <div class="glass">
-  <h1>✨ Student Work</h1>
-  <p>ระบบอัปโหลดและจัดการผลงานนักเรียน</p>
+  <div class="badge">Academic Excellence</div>
 
-  <button class="btn" onclick="goUpload()">📂 อัปโหลดผลงาน</button>
-  <button class="btn" onclick="goDashboard()">📊 Dashboard</button>
+  <h1>Gifted Classroom Program</h1>
+  <h2>ระบบจัดการและแสดงผลงานนักเรียนห้องเรียนพิเศษ</h2>
+
+  <button class="btn" onclick="goUpload()">📂 ส่งผลงาน</button>
+  <button class="btn" onclick="goDashboard()">📊 Dashboard ห้องเรียน</button>
 </div>
 
 <div class="footer">
-  © 2026 Student Project System
+  © 2026 Gifted Program | Special Classroom System
 </div>
 
 <script>
