@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<style>
+body{
+  font-family:Arial;
+  background:#0f2027;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:#1c2e3a;
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+}
+button{
+  padding:10px 20px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Admin Login</h2>
+  <button onclick="login()">Login with Google</button>
+</div>
+
+<script>
+const API_URL = "ใส่URLAppsScript";
+
+function login(){
+  fetch(API_URL + "?action=getUser")
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.isAdmin){
+      localStorage.setItem("loggedIn","true");
+      localStorage.setItem("userEmail",data.email);
+      window.location.href="admin.html";
+    }else{
+      alert("คุณไม่มีสิทธิ์เข้าระบบ");
+    }
+  });
+}
+</script>
+
+</body>
+</html>
