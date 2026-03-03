@@ -2,23 +2,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel</title>
+<title>Admin Dashboard</title>
 <style>
 body{
-  font-family: Arial;
+  font-family:Arial;
   background:#0f2027;
   color:white;
   text-align:center;
   padding:40px;
 }
 button{
-  padding:10px 20px;
-  margin:10px;
-  cursor:pointer;
-}
-input{
-  padding:8px;
+  padding:8px 15px;
   margin:5px;
+  cursor:pointer;
 }
 .card{
   background:#1c2e3a;
@@ -38,39 +34,27 @@ input{
 
 <div class="card">
   <h3>เพิ่มผลงาน</h3>
-  <input type="text" id="name" placeholder="ชื่อนักเรียน"><br>
-  <input type="text" id="title" placeholder="ชื่อผลงาน"><br>
+  <input type="text" id="name" placeholder="ชื่อนักเรียน"><br><br>
+  <input type="text" id="title" placeholder="ชื่อผลงาน"><br><br>
   <button onclick="addWork()">เพิ่ม</button>
-</div>
-
-<div class="card">
-  <h3>สถานะรับสมัคร</h3>
-  <button onclick="setApply('open')">เปิดรับสมัคร</button>
-  <button onclick="setApply('closed')">ปิดรับสมัคร</button>
 </div>
 
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbweFD0flTiK6cWKJvhir-AeDFdTiQBfN1pQEK5OyvNnC4PkaQZRyz1X8qqYHgFzYwG9/exec";
+const API_URL = "ใส่URLAppsScript";
 
-fetch(API_URL + "?action=getUser")
-.then(res=>res.json())
-.then(data=>{
-  if(!data.email){
-    alert("กรุณา Login Google");
-    return;
-  }
+/* ===== ตรวจว่า login แล้วหรือยัง ===== */
 
-  if(data.isAdmin){
-    document.getElementById("user").innerText =
-      "Logged in: " + data.email;
-    document.getElementById("content").style.display = "block";
-  }else{
-    alert("คุณไม่มีสิทธิ์");
-    window.location.href="index.html";
-  }
-});
+if(localStorage.getItem("loggedIn") != "true"){
+  window.location.href="login.html";
+}else{
+  document.getElementById("content").style.display="block";
+  document.getElementById("user").innerText =
+    "Logged in: " + localStorage.getItem("userEmail");
+}
+
+/* ===== เพิ่มผลงาน ===== */
 
 function addWork(){
   fetch(API_URL,{
@@ -78,8 +62,7 @@ function addWork(){
     body:JSON.stringify({
       action:"addWork",
       name:document.getElementById("name").value,
-      title:document.getElementById("title").value,
-      image:""
+      title:document.getElementById("title").value
     })
   })
   .then(res=>res.text())
@@ -92,21 +75,12 @@ function addWork(){
   });
 }
 
-function setApply(status){
-  fetch(API_URL,{
-    method:"POST",
-    body:JSON.stringify({
-      action:"toggleApply",
-      status:status
-    })
-  })
-  .then(res=>res.text())
-  .then(msg=>alert(msg));
-}
+/* ===== Logout เฉพาะเว็บ ===== */
 
 function logout(){
-  localStorage.clear();
-  window.location.href="https://accounts.google.com/Logout";
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("userEmail");
+  window.location.href="login.html";
 }
 </script>
 
